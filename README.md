@@ -93,6 +93,8 @@
     |id|int(11)|--|true|序號|
     |option|varchar(128)|--|--|選項描述|
     |subject_id|int(11)|--|--|--|
+    |multiple|boolean(1)|0|--|單/複選的選擇|<!-- 用於選擇單複選,1=複選,0=單選 -->
+    |mulit_limit|tinyint(2)|1|--|單/複選項目數|<!-- 2位數可以複選到99項 -->
     |start|date|--|--|--|
     |end|date|--|--|--|
     |total|int(11)|--|--|--|
@@ -115,4 +117,4 @@
     |名稱|型態|預設值|A_I|備註|
     |--|--|--|--|--|
     |id|int(11)|--|true|序號|
-    |name|varchar(128)|--|--|分類名稱|
+    |name|varchar(128)|--|--|分類名稱|<!-- 投票內容分類名稱,對應到subjects的subject_id -->
