@@ -1,0 +1,7 @@
+/* 前台頁面的CSS設定 */
+
+
+#container{
+    /* 前台的最小的container高度 */
+    min-height: calc( 100vh - 300px - 3rem ); /* 最小高度為100vh減basic.css內#container提供的hight100px與footer的height:3rem */
+}
