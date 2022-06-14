@@ -1,0 +1,4 @@
+#header{
+    /* width:100% ; 已由basic賦予100%寬度 這裡不用寫 */
+    height:100px ; /* header多高 slider就多高, 後台不需要這麼大的slider所以將高度改為100px, 就算slider高度100%也只有100px */
+}

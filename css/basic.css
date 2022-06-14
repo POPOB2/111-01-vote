@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style-type: none; /*列表的設定*/
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#header{
+    width: 100%;
+    height: 300px;
+    position: relative; 
+    /* 關於position: 相對設定 
+       - 相對定位relative : 將指定標籤賦予座標 從00開此算, 並可設定Left和top, Left正值往右 top正值往下 以上兩者負值反之
+       - absolute : 將指定標籤設定該屬性後, 該屬性會從指定標籤開始尋找上一層(父標籤), 查看該上層父標籤是否為relative, 
+         若否  就再往上一層找, 直到找到body為止 (因為body預設帶有relative屬性) 
+         若有  就以該帶有relative屬性的標籤作為上層, 開始定位座標 並以此上層設定的Left和top的值, 移動absolute屬性的標籤到指定座標
+       - flixed : 永遠對螢幕上的瀏覽器'可視區域'定位Left和top (可以理解成整個瀏覽器畫面就是一個relative)
+    */
+}
+#header .slider{
+    height: 100%; /*header多高 slider就多高*/
+    background: blue; 
+    /*  這裡的basic.css的slider設定會影響前後端的的輪播圖範圍,但後台不需要這麼大的廣告版面,
+        所以使用CSS後者覆蓋前者的特性, 讓後台輪播圖的頁面不那麼大, 去個別設定back.css的css設定覆蓋掉basic.css給予的大版面
+        並不再front.css進行css更改, 以保留basic.css賦予index.php前台的輪播圖版面設定 */
+}
+#header>nav{
+    /* 使用 position 相對設定, 在RWD上會較好調整 */
+    position: absolute; /* 注意:使用absolute時 若未特別定位上層為誰, 會使用body做為該屬性的上層,此時會再畫面最左上角<原因看12行> */
+    width: 80%; /* 'margin: auto'再absolute時會失效 */
+    margin: auto;
+    width: 85%; /* 失效後可以改為寬100%或85% 讓nav與relative的header同寬,搭配padding 縮小nav範圍來讓文字置中  */
+    padding: 0.25rem 7.5%;/* 7.5$*2左右=15% +新設的width85%=100% */
+    min-width: 1000px; /*最小不可小於1000px,當小於1000px時  內容會隨邊框範圍裁減*/
+    background: lightcyan;
+    bottom: 0;/* 定位於父標籤下方 */
+}
+#container{
+    width: 80%;
+    min-width: 1000px;
+    margin: auto;
+    min-height: ;/* 用於減掉#header */
+}
+#footer{
+    width: 100%;
+}
