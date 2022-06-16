@@ -26,14 +26,20 @@
 }
 #header>nav{
     /* 使用 position 相對設定, 在RWD上會較好調整 */
-    position: absolute; /* 注意:使用absolute時 若未特別定位上層為誰, 會使用body做為該屬性的上層,此時會再畫面最左上角<原因看12行> */
-    width: 80%; /* 'margin: auto'再absolute時會失效 */
+    /* 注意:使用absolute時 若未特別定位上層為誰, 會使用body做為該屬性的上層,此時會再畫面最左上角<原因看12行> */
+    position: absolute;
+    /* 'margin: auto'再absolute時會失效 */
+    width: 80%;
     margin: auto;
-    width: 85%; /* 失效後可以改為寬100%或85% 讓nav與relative的header同寬,搭配padding 縮小nav範圍來讓文字置中  */
-    padding: 0.25rem 7.5%;/* 7.5$*2左右=15% +新設的width85%=100% */
-    min-width: 1000px; /*最小不可小於1000px,當小於1000px時  內容會隨邊框範圍裁減*/
+    /* 失效後可以改為寬100%或85% 讓nav與relative的header同寬,搭配padding 縮小nav範圍來讓文字置中  */
+    width: 85%;
+    /* 7.5$*2左右=15% +新設的width85%=100% */
+    padding: 0.25rem 7.5%;
+    /*最小不可小於1000px,當小於1000px時  內容會隨邊框範圍裁減*/
+    min-width: 1000px;
     background: lightcyan;
-    bottom: 0;/* 定位於父標籤下方 */
+    /* 定位於父標籤下方 */
+    bottom: 0;
 }
 #container{
     width: 80%;
@@ -46,3 +52,22 @@ footer{
     background: black;
     color: white;
 }
+/* --common components--- */
+.btn{
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: gray;
+    padding: 0.25rem 0.75rem;
+    font-size: 1.1rem;
+    box-sizing: 0 0 10px #ccc;
+    /* box-shadow: 0 0 10px #ccc; */
+}
+
+/* .btn.btn-primary{
+    background-color: rgb(76, 85, 185);
+} */
+.btn.btn-primary{
+    background-color: rgb(255, 0, 221);
+}
+
