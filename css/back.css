@@ -20,3 +20,30 @@ ul{
     background-color: rgb(164, 207, 193);
     cursor: pointer;
 }
+
+.edit{
+    padding: 3px 12px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    border-radius: 1rem;
+    background: lightsalmon;
+    box-shadow: 3px 3px 10px #aaa;
+    margin: 0 5px;
+}
+.del{
+    padding: 3px 12px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    border-radius: 1rem;
+    background: rgb(172, 29, 29);
+    box-shadow: 3px 3px 10px #aaa;
+    margin: 0 5px;
+}
+.edit:hover{
+    background: rgb(149, 56, 19);
+    color: white;
+}
+.del:hover{
+    background: rgb(189, 71, 71);
+    color: red;
+}
