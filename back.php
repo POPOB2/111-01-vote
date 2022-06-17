@@ -9,8 +9,8 @@ include_once "./api/base.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>投票管理中心</title>
     <!-- 前者本來賦予#header 300px設定 -->
-    <link rel="stylesheet" href="./css/basic1.css">
-    <link rel="stylesheet" href="./css/back1.css"><!-- 後者賦予#header 100px 後者覆蓋掉前者的設定 -->
+    <link rel="stylesheet" href="./css/basic.css">
+    <link rel="stylesheet" href="./css/back.css"><!-- 後者賦予#header 100px 後者覆蓋掉前者的設定 -->
 </head>
 <body>
     <!-- 後台 -->
@@ -44,6 +44,9 @@ include_once "./api/base.php";
                     foreach($subjects as $subject){// 使用foreach 將有資料內容的$subjects的資料 用陣列的方式 塞給$subject
                         echo "<li class='list-items'>";
                         echo $subject['subject'];// 將有資料內容的$subject用陣列的方式  echo出資料表內欄位名稱為subject的資料內容
+                        echo "<a class='edit' href='?do=edit&id={$subject['id']}'>編輯</a>"; // 新增按鈕  同29行使用 判斷do=哪裡 且 id為資料庫的id值
+                        echo "<a class='del' href='?do=del&id={$subject['id']}'>刪除</a>";
+
                         echo "</li>";
                     }
                 ?>
