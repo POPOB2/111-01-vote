@@ -21,11 +21,9 @@ function pdo(){
  *              b. 第二個參數必須為字串，同2-b描述
  */
 
-function all($table,...$arg){
+function all($table,...$arg){// 自定函式all(條件1,複數條件...)
     $pdo=pdo();
-    
-    //建立共有的基本SQL語法
-    $sql="SELECT * FROM $table ";
+    $sql="SELECT * FROM $table "; // $sql=查詢全部 條件為條件1
     
     //依參數數量來決定進行的動作因此使用switch...case
     switch(count($arg)){
@@ -144,7 +142,7 @@ function  save($table,$arg){//在api->add_vote.php裡對應到save('subjects',$a
             }
         }
         //建立更新的sql語法
-        $sql.="UPDATE $table SET ".implode(" AND " ,$tmp)." WHERE `id`='{$arg['id']}'";
+        $sql.="UPDATE $table SET ".implode(" , " ,$tmp)." WHERE `id`='{$arg['id']}'";
 
     }else{// 若無 進入查詢
         //insert
@@ -171,7 +169,7 @@ function find($table,$arg){
     $pdo=pdo();
     
     $sql="SELECT * FROM $table WHERE ";
-        if(is_array($arg)){
+        if(is_array($arg)){//是否陣列 , 若是 使用下列 以條件的方式來撈資料
     
             foreach($arg as $key => $value){
     
@@ -181,8 +179,8 @@ function find($table,$arg){
     
             $sql.=implode(" AND " ,$tmp);
     
-        }else{
-    
+        }else{// 若否 ,預設其為一個ID, 執行上述171行$sql="SELECT * FROM $table WHERE" 到下列
+              // 171行撈出資料的$sql   相連   "字串:資料庫的id=find(條件2放入的id)"  賦值給 新$sql
             $sql.=" `id`='$arg'";
     
         }
@@ -219,4 +217,11 @@ function del($table,$arg){
     
         return $pdo->exec($sql);
     }
+
+// ---------------------------dd-傾印陣列-------------------------------------------------
+function dd($array){
+    echo "<pre>";
+    print_r($array);
+    echo "</pre>";
+}
 ?>
