@@ -1,6 +1,6 @@
 <?php
 include_once "base.php";
-
+// 接收來自表單傳來的投票主題文字內容
 $subject=$_POST['subject'];
 
 $add_subject=[// add_data變數設置為陣列, 'subject'的資料為POST抓下來的資料$subject
@@ -10,6 +10,8 @@ $add_subject=[// add_data變數設置為陣列, 'subject'的資料為POST抓下�
     'end'=>date("Y-m-d",strtotime("+10 days")), // 結束(把今日+10天)
 
 ];
+
+// 使用save()函式把投票主題存至資料表subjects中
 save('subjects',$add_subject);
 $id=find('subjects',['subject'=>$subject])['id'];// 重新將投票名稱丟回去 獲得find的資料 = 我要找的那筆資料
 // function find : 用於回傳資料表內有符合指定條件的單筆資料----<在base.php的170行>
@@ -25,6 +27,7 @@ if(isset($_POST['option'])){//若POST表單給予了選項 就表示opstion參�
                 'option'=>$opt,
                 'subject_id'=>$id
             ];
+            // 使用save()函式把投票選項存至資料表options中
             save("options",$add_option);
             // 執行base.php->135行, 將這裡獲取的"options",$add_option 使用saveFunction 使用資料表id對應去更新資料 若無資料 則新增資料
         }
