@@ -1,5 +1,5 @@
 
-
+<!-- 編輯頁面 -->
 
 <?php
 $id=$_GET['id'];
@@ -16,14 +16,17 @@ $opts=all('options',['subject_id'=>$id]);// allFunction 找全部資料
         <label for="subject">投票主題：</label><!-- label的for可以使用id值做連接, 將下列的input用id連接後 兩者可以產生關聯 -->
         <input type="text" name="subject" id="subject" value="<?=$subj['subject'];?>"><!-- 第6行找到的資料用 值=$subj的資料表欄位['subject']內容  顯示 -->
         <input type="button" value="新增選項" onclick="more()"><!-- '每點一下'就會新增, 所以使用onclick去add -->
+        <input type="hidden" name="subject_id" value="<?=$subj['id'];?>"><!-- 隱藏欄位subject_id, 送出時 到/api/edit_vote.php會顯示資料表subjects的id欄位內容 -->
+        <!-- 用於定位資料表的id, 使這個表單在編輯更新時有id值的存在 用於判斷為更新 而非新增, 將更新完的文字 更新在該id的這筆資料上 -->
     </div>
     <div id="options">
         <?php
-        foreach($opts as $opt){// 查找到的每一個選項內容(7行) as 作為一個資料內容呈現(36行) , 不須顯示值的索引值 所以不輸入$key只用$opt(內容)
+        foreach($opts as $opt){// 查找到的每一個選項內容(7行) as 作為一個資料內容呈現(40行) , 不須顯示值的索引值 所以不輸入$key只用$opt(內容)
         ?>
         <div>
             <!-- 顯示的值value=$opt(22行)options資料庫的option資料欄位的內容 -->
-            <label>選項:</label><input type="text" name="option[]" value="<?=$opt['option'];?>">
+            <label>選項:</label><input type="text" name="option[<?=$opt['id'];?>]" value="<?=$opt['option'];?>">
+            <!-- name="option[< ?=$option['id'];?>]"====用於讓option資料表 獲取該筆$opt資料表id 功能和20行的註解相同 -->
         </div>
         <?php
         }
