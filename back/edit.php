@@ -19,6 +19,15 @@ $opts=all('options',['subject_id'=>$id]);// allFunction 找全部資料
         <input type="hidden" name="subject_id" value="<?=$subj['id'];?>"><!-- 隱藏欄位subject_id, 送出時 到/api/edit_vote.php會顯示資料表subjects的id欄位內容 -->
         <!-- 用於定位資料表的id, 使這個表單在編輯更新時有id值的存在 用於判斷為更新 而非新增, 將更新完的文字 更新在該id的這筆資料上 -->
     </div>
+
+    <div id="selector">
+        <!-- $subj的multiple欄內容 == 0或1時 在該列 印出'checked'使編輯功能內的選項可以使用資料庫的multiple內容判斷, 當初這題是選單選還是複選 -->
+        <input type="radio" name="multiple" value="0" <?=($subj['multiple']==0)?'checked':'';?>> 
+        <label>單選</label>
+        <input type="radio" name="multiple" value="1" <?=($subj['multiple']==1)?'checked':'';?>>
+        <label>複選</label>
+    </div>
+
     <div id="options">
         <?php
         foreach($opts as $opt){// 查找到的每一個選項內容(7行) as 作為一個資料內容呈現(40行) , 不須顯示值的索引值 所以不輸入$key只用$opt(內容)
