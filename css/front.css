@@ -5,3 +5,51 @@
     /* 前台的最小的container高度 */
     min-height: calc( 100vh - 300px - 3rem ); /* 最小高度為100vh減basic.css內#container提供的hight100px與footer的height:3rem */
 }
+ul{
+    margin: 1rem 0 1rem 6rem;
+}
+.list-header{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    
+}
+.list a{
+    text-decoration: none;
+}
+.list-header div{
+    width: calc(100% / 5);
+    padding: 0.5rem 1rem;
+    background: blue;
+    color: #ccc;
+}
+.list-header div a{
+    color: #ccc;
+}
+.list-items div{
+    width: calc(100% / 5);
+    padding: 0.5rem 1rem;
+}
+
+.list-items{
+    display: flex;
+    justify-content: space-evenly;
+    padding:0.5rem;
+    margin:0.25rem 0;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+.list-items:hover{
+    background-color: rgb(164, 207, 193);
+    cursor: pointer;
+}
+
+.result-table{
+    border-collapse: collapse;
+    box-shadow: 0 0 6px #bbb;
+}
+.result-table td{
+    padding: 0.25re;
+    border: 1px solid #ccc;
+}
