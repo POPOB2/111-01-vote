@@ -65,6 +65,8 @@ function all($table,...$arg){// 自定函式all(條件1,複數條件...)
     
         //fetchAll()加上常數參數FETCH_ASSOC是為了讓取回的資料陣列中
         //只有欄位名稱,而沒有數字的索引值
+
+        // echo $sql; // 觀看sql語法結果
         return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     
     }
