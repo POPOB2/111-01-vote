@@ -38,14 +38,55 @@ include_once "./api/base.php";
             <button class="btn btn-primary" onclick="location.href='?do=add_vote'">新增投票</button><!-- 路徑位置使用?do=鏈結區域  將當下頁面的內容帶到下一個鏈結區域 -->
             <div>
                 <ul>
+                    <li class='list-header'>
+                        <div>投票主題</div>
+                        <div>單/複選題</div>
+                        <div>投票期間</div>
+                        <div>剩餘天數</div>
+                        <div>投票人數</div>
+                        <div>操作</div>
+                    </li>
                 <?php
                     // allFunction=base.php->24行 , 給定資料表名稱和條件後，會回傳符合條件的所有資料
                     $subjects=all('subjects');// 不管條件如何  將subjects資料表的資料全部撈出  賦值給$subjects
                     foreach($subjects as $subject){// 使用foreach 將有資料內容的$subjects的資料 用陣列的方式 塞給$subject
                         echo "<li class='list-items'>";
-                        echo $subject['subject'];// 將有資料內容的$subject用陣列的方式  echo出資料表內欄位名稱為subject的資料內容
+
+                        // 投票主題------------------------------------------------------------------------------------------------------------------
+                        echo "<div>{$subject['subject']}</div>";// 將有資料內容的$subject用陣列的方式  echo出資料表內欄位 名為subject的資料內容
+
+                        // 單/複選題-----------------------------------------------------------------------------------------------------------------
+                        if($subject['multiple']==0){// 將現有值用於判斷是否==0,以顯示單/複選題
+                            echo "<div class='text-center'>單選題</div>";
+                        }else{
+                            echo "<div class='text-center'>複選題</div>";
+                        }
+
+                        // 投票期間-----------------------------------------------------------------------------------------------------------------
+                        echo "<div class='text-center'>";
+                        echo $subject['start']."~".$subject['end'];
+                        echo "</div>";
+
+                        // 剩餘天數-----------------------------------------------------------------------------------------------------------------
+                        echo "<div class='text-center'>";
+                            $today=strtotime("now");
+                            $end=strtotime($subject['end']);
+                            if(($end-$today)>0){// 判斷 結束日-現在日的結果 大於0 表示結束的時間未到, 執行顯示倒數計算
+                                $remain=floor(($end-$today)/(60*60*24));
+                                echo "該投票還有".$remain."天結束";
+                            }else{
+                                echo "<span style='color:grey'>該投票已結束</span>";
+                            }
+                        echo "</div>";
+
+                        // 投票人數-----------------------------------------------------------------------------------------------------------------
+                        echo "<div class='text-center'>{$subject['total']}</div>";
+
+                        // 操作---------------------------------------------------------------------------------------------------------------------
+                        echo "<div class='text-center'>";
                         echo "<a class='edit' href='?do=edit&id={$subject['id']}'>編輯</a>"; // 新增按鈕  同29行使用 判斷do=哪裡 且 id為資料庫的id值
                         echo "<a class='del' href='?do=del&id={$subject['id']}'>刪除</a>";
+                        echo "</div>";
 
                         echo "</li>";
                     }
