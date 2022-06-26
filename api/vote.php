@@ -57,5 +57,5 @@ if(is_array($_POST['opt'])){// 先判斷front/vote.php的opt是否為陣列
         save("logs",$log);
 }
 }
-to("../index.php");
+to("../index.php?do=vote_result&id={$option['subject_id']}"); // 用?帶值 id去到$option(subjects表)的subject_id欄 的值
 ?>
