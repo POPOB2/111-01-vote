@@ -53,3 +53,10 @@ ul{
     padding: 0.25re;
     border: 1px solid #ccc;
 }
+#types{
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    /* 利用 後面設定 覆蓋 前面設定 的特性 讓邊框都消失 再製作一條底線 */
+    border:0;
+    border-bottom:1px solid orange ;
+}

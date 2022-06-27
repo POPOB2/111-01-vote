@@ -16,7 +16,8 @@ $subject=find('subjects',$subject_id);// 獲取資料表subjects內的$subject_i
 $subject['subject']=$new_subject;// $subject=資料庫撈出的舊資料(10行)
                                  // $subject該資料庫裡的['subject']欄位的舊值 
                                  // 使用第8行表單獲取的$new_subject資料, 覆蓋掉上述$subject['subject']原有的資料
-$subject['multiple']=$_POST['multiple'];// 資料表的multiple欄改為表單給的multiple值
+$subject['multiple']=$_POST['multiple'];// 資料表的multiple欄改為POST表單給的multiple值
+$subject['type_id']=$_POST['types'];// 資料表的type_id欄改為POST表單給的types值(types表的id值)
 
 // 使用save()函式把更改後的內容存到資料表'subjects'中-----------------------------------------------------------------------------------------------
 save('subjects',$subject);

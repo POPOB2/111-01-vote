@@ -1,4 +1,17 @@
 <form action="./api/add_vote.php" method="post">
+    
+    <div><!-- 新增分類管理選擇器------------------------------------------------------------------------- -->
+        <select name="types" id="types">
+            <?php
+            $types=all("types");
+            foreach($types as $type){
+                echo "<option value='{$type['id']}'>"; // 使用者頁面看不到 實際傳到資料表的值
+                echo $type['name']; // 使用者頁面看到的選項值
+                echo "</option>";
+            }
+            ?>
+        </select>
+    </div>
     <div>
         <label for="subject">投票主題：</label> <!-- label的for可以使用id值做連接, 將下列的input用id連接後 兩者可以產生關聯 -->
         <input type="text" name="subject" id="subject">

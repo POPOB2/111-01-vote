@@ -11,7 +11,31 @@ if(isset($_GET['order'])){
     $queryStr="&order={$_GET['order']}&type={$_GET['type']}";
 }
 
+$queryfilter="";
+if(isset($_GET['filter'])){
+    $queryfilter="&filter={$_GET['filter']}";
+}
+
 ?>
+
+    <div><!-- 新增分類管理選擇器=============================================================================================== -->
+        <label for="types">分類</label>
+        <!-- onchange=改變選擇項目時觸發的事件 --><!-- this代表當前該<select> 的 value(select內的 下列option value=0) -->
+        <select name="types" id="types" onchange="location.href=`?filter=${this.value}<?=$p;?><?=$queryStr;?>`">
+                                                                                <!-- 將< ?=$p;?> 和 < ?=$queryStr;?> 拆開寫 這樣沒有值就不會加上來 -->
+                <option value="0">全部</option>
+            <?php
+            $types=all("types");
+            foreach($types as $type){
+                $selected=(isset($_GET['filter']) && $_GET['filter']==$type['id'])?'selected':''; // 新增一個變數 內容為字串selected或空值
+                echo "<option value='{$type['id']}' $selected>"; // 使用者頁面看不到 實際傳到資料表的值
+                echo $type['name']; // 使用者頁面看到的選項值
+                echo "</option>";
+            }
+            ?>
+        </select>
+    </div>
+
 <div>   
                         <!--  使用網址帶值的方式控制 投票主題各個參數的排序 
                            1. 網址狀態為不帶值時 執行$subjects=all('subjects',$orderStr) 僅以subjects表做為條件 顯示資料表順序
@@ -26,11 +50,11 @@ if(isset($_GET['order'])){
                         // 判斷有無GET type存在 若是 且 GET type的type為asc(遞增)時, 就執行下列 將type改為desc(遞減)
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href="?order=multiple&type=desc<?=$p;?>">單/複選題</a></div> 
+                        <div><a href="?order=multiple&type=desc<?=$p;?><?=$queryfilter;?>">單/複選題</a></div> 
                         <?php
                         }else{    
                         ?>
-                        <div><a href="?order=multiple&type=asc<?=$p;?>">單/複選題</a></div> 
+                        <div><a href="?order=multiple&type=asc<?=$p;?><?=$queryfilter;?>">單/複選題</a></div> 
                         <?php
                         }
                         ?>
@@ -40,11 +64,11 @@ if(isset($_GET['order'])){
                         <?php
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href="?order=end&type=desc<?=$p;?>">投票期間</a></div>
+                        <div><a href="?order=end&type=desc<?=$p;?><?=$queryfilter;?>">投票期間</a></div>
                         <?php
                         }else{
                         ?>
-                        <div><a href="?order=end&type=asc<?=$p;?>">投票期間</a></div>
+                        <div><a href="?order=end&type=asc<?=$p;?><?=$queryfilter;?>">投票期間</a></div>
                         <?php
                         }
                         ?>
@@ -53,12 +77,12 @@ if(isset($_GET['order'])){
                         <?php
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href="?order=remain&type=desc<?=$p;?>">剩餘天數</a></div>
+                        <div><a href="?order=remain&type=desc<?=$p;?><?=$queryfilter;?>">剩餘天數</a></div>
                         <?php
                         }else{
 
                         ?>
-                        <div><a href="?order=remain&type=asc<?=$p;?>">剩餘天數</a></div>
+                        <div><a href="?order=remain&type=asc<?=$p;?><?=$queryfilter;?>">剩餘天數</a></div>
                         <?php
                         }
                         ?>
@@ -66,11 +90,11 @@ if(isset($_GET['order'])){
                         <?php
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href='?order=total&type=desc<?=$p;?>'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為desc(遞減) -->
+                        <div><a href='?order=total&type=desc<?=$p;?><?=$queryfilter;?>'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為desc(遞減) -->
                         <?php
                         }else{
                         ?>
-                        <div><a href='?order=total&type=asc<?=$p;?>'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為asc(遞增) -->
+                        <div><a href='?order=total&type=asc<?=$p;?><?=$queryfilter;?>'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為asc(遞增) -->
                         <?php
                         }
                         ?>
@@ -95,6 +119,14 @@ if(isset($_GET['order'])){
                                         // $orderStr經過上述SESSION的賦值產生 = SQL語法的 : ORDER BY `multiple` asc 值
                                     }
                         }
+                        // 過濾分類用============================================================================================
+                        $filter=[];
+                        if(isset($_GET['filter'])){
+                            if(!$_GET['filter']==0){/* 不等於0時 將type_id欄 填入GET到的filter值  賦值給$filter, 
+                                                       若0 維持$filter=[];的空陣列  將空陣列的$filter 作為下面的$total=math()條件 撈出所有資料 */
+                                $filter=['type_id'=>$_GET['filter']];
+                            }
+                        }
                         /* 建立分頁所需的變數群 
                          * 
                          * 
@@ -102,7 +134,9 @@ if(isset($_GET['order'])){
                          *
                          * */ 
                         //math(參數1.subjects表, 參數2.方法使用count, 參數3.使用參數2去執行的目標 count id欄位)     
-                        $total=math('subjects','count','id'); // 資料總筆數_
+                        $total=math('subjects','count','id',$filter); // 資料總筆數_ 
+                                                                      /* (新增 把$filter納入過濾條件, 才可以算出正確的total 
+                                                                         避免下方的$subjects=all把$filter納入計算影響$orderStr . $page_rows) */
                         $div=3; // 每個分頁有3筆資料_
                         $pages=ceil($total/$div); // 擁有幾個分頁_使用進位避免餘數不被計算 值為(總筆數 除 每頁要設置的筆數)
                         $now=isset($_GET['p'])?$_GET['p']:1; // 當前頁_為GET值, 若無GET值顯示1
@@ -124,9 +158,10 @@ if(isset($_GET['order'])){
                 6           7     (3-1)*3+1=7
                 ----第三頁----                   
             */ 
+                        
 
                     // allFunction=base.php->24行 , 給定資料表名稱和條件後，會回傳符合條件的所有資料
-                    $subjects=all('subjects',$orderStr . $page_rows);// 若$orderStr無值  將subjects資料表的資料全部撈出  賦值給$subjects(SELECT * FROM subjects)
+                    $subjects=all('subjects',$filter,$orderStr . $page_rows);// 若$orderStr無值  將subjects資料表的資料全部撈出  賦值給$subjects(SELECT * FROM subjects)
                                                         // 若$orderStr有值  將GET進來的內容 做為subjects表搜尋條件 賦值給$subjects(SELECT * FROM subjects ORDER BY `multiple` asc)
                                                         // 新增 . $page_rows 作為字串內容 影響SQL語句, 使用限制筆數產生分頁要顯示的資料 效果
 
@@ -170,13 +205,14 @@ if(isset($_GET['order'])){
                 <!-- 分頁的頁碼 -->
                 <div class="text-center">
                     <?php
+                if($pages > 1){// 一頁就不分頁
                     for($i=1; $i<=$pages; $i++){ // $i為分頁碼  分頁碼不會大於分頁數  依照每三筆資料+1個分頁碼
                         // echo "<a href='?p=$i'>&nbsp;"; // 使用?帶值 p=$i(頁碼==對應排序的資料)
-                        echo "<a href='?p={$i}{$queryStr}'>&nbsp;"; // 再內容加上$queryStr帶來的排序字串內容
+                        echo "<a href='?p={$i}{$queryStr}{$queryfilter}'>&nbsp;"; // 再內容加上$queryStr帶來的排序字串內容
                         echo $i;
                         echo "&nbsp;</a>";
                     }
-                
+                }
                     ?>
                 </div>
             </div>  

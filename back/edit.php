@@ -12,6 +12,20 @@ $opts=all('options',['subject_id'=>$id]);// allFunction 找全部資料
 ?>
 
 <form action="./api/edit_vote.php" method="post">
+    <div><!-- 新增分類管理選擇器------------------------------------------------------------------------- -->
+            <select name="types" id="types">
+                <?php
+                $types=all("types");
+                foreach($types as $type){
+                    $selected=($subj['type_id']==$type['id'])?'selected':''; // 主題的subjects表type_id欄的值 == types表id欄的值時, 賦值selected 否則 空值
+                    echo "<option value='{$type['id']}' $selected>"; // 使用者頁面看不到 實際傳到資料表的值, 新增selected字串 用於設為預設選項
+                    echo $type['name']; // 使用者頁面看到的選項值
+                    echo "</option>";
+                }
+                ?>
+            </select>
+    </div>
+
     <div>
         <label for="subject">投票主題：</label><!-- label的for可以使用id值做連接, 將下列的input用id連接後 兩者可以產生關聯 -->
         <input type="text" name="subject" id="subject" value="<?=$subj['subject'];?>"><!-- 第6行找到的資料用 值=$subj的資料表欄位['subject']內容  顯示 -->

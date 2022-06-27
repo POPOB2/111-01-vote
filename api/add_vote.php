@@ -5,7 +5,7 @@ $subject=$_POST['subject'];
 
 $add_subject=[// add_data變數設置為陣列, 'subject'的資料為POST抓下來的資料$subject
     'subject'=>$subject,
-    'type_id'=>1,
+    'type_id'=>$_POST['types'], // subjects表 type_id欄 填入 POST帶來的types值
     'multiple'=>$_POST['multiple'], // 資料表辨別單複選的multiple欄位 其值 來自POST表單選的multiple
     'start'=>date("Y-m-d"), // 開始(今天)
     'end'=>date("Y-m-d",strtotime("+10 days")), // 結束(把今日+10天)
