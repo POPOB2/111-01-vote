@@ -1,3 +1,17 @@
+<?php
+/* 用網址帶參數  所以在此新增$p 再排序的按扭 用於帶值的網址字串內 新增頁碼字串
+   用網址帶參數  所以在此新增$queryStr 再頁碼的按扭 用於帶值的網址字串內 新增排序字串 */
+$p=""; // 設空值 避免未GET沒有值 影響排序
+if(isset($_GET['p'])){
+    $p="&p=".$_GET['p'];
+}
+// $queryStr 用於 頁碼帶值時 所需的功能字串
+$queryStr="";
+if(isset($_GET['order'])){
+    $queryStr="&order={$_GET['order']}&type={$_GET['type']}";
+}
+
+?>
 <div>   
                         <!--  使用網址帶值的方式控制 投票主題各個參數的排序 
                            1. 網址狀態為不帶值時 執行$subjects=all('subjects',$orderStr) 僅以subjects表做為條件 顯示資料表順序
@@ -12,11 +26,11 @@
                         // 判斷有無GET type存在 若是 且 GET type的type為asc(遞增)時, 就執行下列 將type改為desc(遞減)
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href="?order=multiple&type=desc">單/複選題</a></div> 
+                        <div><a href="?order=multiple&type=desc<?=$p;?>">單/複選題</a></div> 
                         <?php
                         }else{    
                         ?>
-                        <div><a href="?order=multiple&type=asc">單/複選題</a></div> 
+                        <div><a href="?order=multiple&type=asc<?=$p;?>">單/複選題</a></div> 
                         <?php
                         }
                         ?>
@@ -26,11 +40,11 @@
                         <?php
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href="?order=end&type=desc">投票期間</a></div>
+                        <div><a href="?order=end&type=desc<?=$p;?>">投票期間</a></div>
                         <?php
                         }else{
                         ?>
-                        <div><a href="?order=end&type=asc">投票期間</a></div>
+                        <div><a href="?order=end&type=asc<?=$p;?>">投票期間</a></div>
                         <?php
                         }
                         ?>
@@ -39,12 +53,12 @@
                         <?php
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href="?order=remain&type=desc">剩餘天數</a></div>
+                        <div><a href="?order=remain&type=desc<?=$p;?>">剩餘天數</a></div>
                         <?php
                         }else{
 
                         ?>
-                        <div><a href="?order=remain&type=asc">剩餘天數</a></div>
+                        <div><a href="?order=remain&type=asc<?=$p;?>">剩餘天數</a></div>
                         <?php
                         }
                         ?>
@@ -52,11 +66,11 @@
                         <?php
                         if(isset($_GET['type']) && $_GET['type']=='asc'){
                         ?>
-                        <div><a href='?order=total&type=desc'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為desc(遞減) -->
+                        <div><a href='?order=total&type=desc<?=$p;?>'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為desc(遞減) -->
                         <?php
                         }else{
                         ?>
-                        <div><a href='?order=total&type=asc'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為asc(遞增) -->
+                        <div><a href='?order=total&type=asc<?=$p;?>'>投票人數</a></div><!-- 按下投票人數時 返回至當前頁 並以total值排列, 類型為asc(遞增) -->
                         <?php
                         }
                         ?>
@@ -158,7 +172,7 @@
                     <?php
                     for($i=1; $i<=$pages; $i++){ // $i為分頁碼  分頁碼不會大於分頁數  依照每三筆資料+1個分頁碼
                         // echo "<a href='?p=$i'>&nbsp;"; // 使用?帶值 p=$i(頁碼==對應排序的資料)
-                        echo "<a href='?p={$i}&{$orderStr}'>&nbsp;";
+                        echo "<a href='?p={$i}{$queryStr}'>&nbsp;"; // 再內容加上$queryStr帶來的排序字串內容
                         echo $i;
                         echo "&nbsp;</a>";
                     }
