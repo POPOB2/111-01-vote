@@ -81,10 +81,40 @@
                                         // $orderStr經過上述SESSION的賦值產生 = SQL語法的 : ORDER BY `multiple` asc 值
                                     }
                         }
+                        /* 建立分頁所需的變數群 
+                         * 
+                         * 
+                         * 
+                         *
+                         * */ 
+                        //math(參數1.subjects表, 參數2.方法使用count, 參數3.使用參數2去執行的目標 count id欄位)     
+                        $total=math('subjects','count','id'); // 資料總筆數_
+                        $div=3; // 每個分頁有3筆資料_
+                        $pages=ceil($total/$div); // 擁有幾個分頁_使用進位避免餘數不被計算 值為(總筆數 除 每頁要設置的筆數)
+                        $now=isset($_GET['p'])?$_GET['p']:1; // 當前頁_為GET值, 若無GET值顯示1
+                        $start=($now-1)*$div; // 開始頁_(GET進來的值-1)*每分頁資料筆數
+                        $page_rows=" limit $start,$div"; // 每頁顯示的資料_限制筆數 為開始頁的 每個分頁筆數
+                        // 放在最後執行 是為了 排序完再作分頁, 如果放在前面會變成先作分頁 再排序,  會產生完全不同的結果
+
+            /*  使用index計算每頁資料  而非使用id計算每頁資料   因為id可能會被刪除   導至順序數破碎   無法計算開始值與結束值
+                而index不受影響   無論id如何變化   index都是由陣列索引填數
+                index       id    頻率為
+                0           1     (1-1)*3+1=1
+                1           2
+                2           3
+                ----第一頁----
+                3           4     (2-1)*3+1=4
+                4           5
+                5           6
+                ----第二頁----
+                6           7     (3-1)*3+1=7
+                ----第三頁----                   
+            */ 
 
                     // allFunction=base.php->24行 , 給定資料表名稱和條件後，會回傳符合條件的所有資料
-                    $subjects=all('subjects',$orderStr);// 若$orderStr無值  將subjects資料表的資料全部撈出  賦值給$subjects(SELECT * FROM subjects)
+                    $subjects=all('subjects',$orderStr . $page_rows);// 若$orderStr無值  將subjects資料表的資料全部撈出  賦值給$subjects(SELECT * FROM subjects)
                                                         // 若$orderStr有值  將GET進來的內容 做為subjects表搜尋條件 賦值給$subjects(SELECT * FROM subjects ORDER BY `multiple` asc)
+                                                        // 新增 . $page_rows 作為字串內容 影響SQL語句, 使用限制筆數產生分頁要顯示的資料 效果
 
                     foreach($subjects as $subject){// 使用foreach 將有資料內容的$subjects的資料 用陣列的方式 塞給$subject
                         echo "<a href='?do=vote_result&id={$subject['id']}'>";// 點擊投票內容 導到頁面 do=vote 而 id=$subject的id
@@ -123,4 +153,16 @@
                     }
                 ?>
                 </ul>
+                <!-- 分頁的頁碼 -->
+                <div class="text-center">
+                    <?php
+                    for($i=1; $i<=$pages; $i++){ // $i為分頁碼  分頁碼不會大於分頁數  依照每三筆資料+1個分頁碼
+                        // echo "<a href='?p=$i'>&nbsp;"; // 使用?帶值 p=$i(頁碼==對應排序的資料)
+                        echo "<a href='?p={$i}&{$orderStr}'>&nbsp;";
+                        echo $i;
+                        echo "&nbsp;</a>";
+                    }
+                
+                    ?>
+                </div>
             </div>  
