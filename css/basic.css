@@ -27,7 +27,7 @@
         所以使用CSS後者覆蓋前者的特性, 讓後台輪播圖的頁面不那麼大, 去個別設定back.css的css設定覆蓋掉basic.css給予的大版面
         並不再front.css進行css更改, 以保留basic.css賦予index.php前台的輪播圖版面設定 */
 }
-#header>nav{
+#header nav{
     /* 使用 position 相對設定, 在RWD上會較好調整 */
     /* 注意:使用absolute時 若未特別定位上層為誰, 會使用body做為該屬性的上層,此時會再畫面最左上角<原因看12行> */
     position: absolute;
@@ -35,7 +35,7 @@
     width: 80%;
     margin: auto;
     /* 失效後可以改為寬100%或85% 讓nav與relative的header同寬,搭配padding 縮小nav範圍來讓文字置中  */
-    width: 85%;
+    width: 100%;
     /* 7.5$*2左右=15% +新設的width85%=100% */
     padding: 0.25rem 7.5%;
     /*最小不可小於1000px,當小於1000px時  內容會隨邊框範圍裁減*/
@@ -45,7 +45,7 @@
     bottom: 0;
 }
 #container{
-    width: 80%;
+    width: 85%;
     min-width: 1000px;
     margin: auto;
 }
